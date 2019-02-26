@@ -28,11 +28,45 @@ const concatAll = (array, fn) => {
   return results
 }
 
+const reduce = (array, fn, initialValue) => {
+  let accumulator
+  if (initialValue !== undefined) {
+    accumulator = initialValue
+  } else {
+    accumulator = array[0]
+  }
+  if (initialValue === undefined) {
+    for (let i = 1; i < array.length; i++) {
+      accumulator = fn(accumulator, array[i])
+    }
+  } else {
+    for (const value of array) {
+      accumulator = fn(accumulator, value)
+    }
+  }
+  return [accumulator]
+}
+
+const zip = (leftArr, rightArr, fn) => {
+  let index
+  let results = []
+  for (
+    let index = 0;
+    index < Math.min(leftArr.length, rightArr.length);
+    index++
+  ) {
+    results.push(fn(leftArr[index], rightArr[index]))
+  }
+  return results
+}
+
 const arrayUtils = {
+  forEach,
   map,
   filter,
   concatAll,
-  reduce
+  reduce,
+  zip
 }
 
-export { forEach, arrayUtils, concatAll, reduce }
+export { forEach, arrayUtils, concatAll, reduce, zip }
