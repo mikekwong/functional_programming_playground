@@ -1,0 +1,17 @@
+{
+  "name": "learning-functional",
+  "version": "1.0.0",
+  "description": "Functional lib and examples in ES8",
+  "main": "index.js",
+  "scripts": {
+    "start": "babel-node functional-playground/play.js --presets es2017-node7"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-es2017-node7": "^0.5.2"
+  },
+  "dependencies": {}
+}
