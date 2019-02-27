@@ -56,3 +56,78 @@ let curriedMul3 = curry2(multiply)(3)
 let curriedMul2 = curriedMul3(2)
 let curriedMul1 = curriedMul2(1)
 console.log(curriedMul1)
+
+// const loggerHelper2 = (mode, initialMessage, errorMessage, lineNo) => {
+//   if (mode === 'DEBUG') {
+//     console.debug(initialMessage, errorMessage + 'at line: ' + lineNo)
+//   } else if (mode === 'ERROR') {
+//     console.error(initialMessage, errorMessage + 'at line: ' + lineNo)
+//   } else if (mode === 'WARN') {
+//     console.warn(initialMessage, errorMessage + 'at line: ' + lineNo)
+//   } else {
+//     throw 'Wrong mode'
+//   }
+// }
+// let errorLogger = curry2(loggerHelper2)('ERROR')('Error At Stats.js')
+// let debugLogger = curry2(loggerHelper2)('DEBUG')('Debug At Stats.js')
+// let warnLogger = curry2(loggerHelper2)('WARN')('Warn At Stats.js')
+
+// // for error
+// console.log(errorLogger, debugLogger, warnLogger)
+
+// finding a number in array contents
+let match = curry(function (exp, str) {
+  return str.match(exp)
+})
+
+let hasNumber = match(/[0-9]+/)
+
+let filter = curry(function (f, ary) {
+  return ary.filter(f)
+})
+
+let findNumbersInArray = filter(hasNumber)
+console.log(findNumbersInArray(['js', 'number1']))
+
+// squaring an array
+let map = curry(function (f, arr) {
+  return arr.map(f)
+})
+
+let squareAll = map(x => x * x)
+
+console.log(squareAll([1, 2, 3]))
+
+const setTimeoutWrapper = (time, fn) => {
+  setTimeout(fn, time)
+}
+
+const delayTenMs = curry(setTimeoutWrapper)(10)
+delayTenMs(() => console.log('Do X Task'))
+delayTenMs(() => console.log('Do Y Task'))
+
+// Partial application of the above
+const partial = function (fn, ...partialArgs) {
+  let args = partialArgs
+  return function (...fullArguments) {
+    let arg = 0
+    for (let i = 0; i < args.length && arg < fullArguments.length; i++) {
+      if (args[i] === undefined) {
+        args[i] = fullArguments[arg++]
+      }
+    }
+    return fn.apply(null, args)
+  }
+}
+
+let delayTenMs2 = partial(setTimeout, undefined, 10)
+delayTenMs2(() => console.log('Do Y Task'))
+
+let obj = { foo: 'bar', bar: 'foo' }
+JSON.stringify(obj, null, 2)
+
+let prettyPrintJson = partial(JSON.stringify, undefined, null, 2)
+console.log(
+  'JSON pretty print via partial',
+  prettyPrintJson({ foo: 'bar', bar: 'foo' })
+)
